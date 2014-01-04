@@ -1,0 +1,12 @@
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\DataAccess.dll.config
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\DataAccess.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\DataAccess.pdb
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\Data.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\EntityFramework.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\Data.pdb
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\EntityFramework.xml
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\obj\Debug\DataAccess.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\DataAccess\obj\Debug\DataAccess.pdb

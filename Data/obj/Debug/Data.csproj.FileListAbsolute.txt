@@ -1,0 +1,5 @@
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\bin\Debug\Data.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\bin\Debug\Data.pdb
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.dll
+c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.pdb

@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Library";
+}
+
+<style>
+    .row {
+        padding-top: 20px
+    }
+</style>
+
+<div class="row" ng-app="library-app" ng-controller="LibraryCtrl">
+    <div class="col-xs-9">
+        <div ng-repeat="song in user.librarySongs">
+            {{song.artist}} &ndash; {{song.title}}
+        </div>
+        <div ng-show="user.librarySongs.length == 0">
+            You don't have any songs in your library yet
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <a href="#" class="btn btn-success">
+            <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Upload
+        </a>
+        Filter
+    </div>
+</div>
+
+
+<script src="~/Scripts/angular.js"></script>
+<script>
+    var app = angular.module('library-app', []);
+    
+    app.factory('User', function($http) {
+        var service = {};
+        service.getCurrent = function() {
+            return $http({ method: 'GET', url: '/user/current' });
+        };
+        
+        return service;
+    });
+
+    app.controller('LibraryCtrl', function($scope, User) {
+        $scope.user = {};
+        $scope.pony = { name: 'fluttershy' };
+        User.getCurrent().success(function(user) {
+            $scope.user = user;
+        }).error(function(data) {
+            console.error(data);
+        });
+    });
+</script>
