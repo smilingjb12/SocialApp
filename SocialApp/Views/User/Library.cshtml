@@ -4,9 +4,10 @@
 
 <style>
     .row {
-        padding-top: 20px
+        padding-top: 20px;
     }
 </style>
+<link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
 
 <div class="row" ng-app="library-app" ng-controller="LibraryCtrl">
     <div class="col-xs-9">
@@ -18,34 +19,38 @@
         </div>
     </div>
     <div class="col-xs-3">
-        <a href="#" class="btn btn-success">
+        <a href="#" class="btn btn-success" id="upload-btn" data-toggle="modal" data-target="#upload-modal">
             <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Upload
         </a>
-        Filter
+        Maybe filter
     </div>
 </div>
 
+<div class="modal fade" id="upload-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Song upload</h4>
+            </div>
+            <div class="modal-body">
+                <span id="browse-btn" class="btn btn-primary btn-file">
+                    Browse
+                    <input type="file"/>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<script src="~/Scripts/angular.js"></script>
-<script>
-    var app = angular.module('library-app', []);
-    
-    app.factory('User', function($http) {
-        var service = {};
-        service.getCurrent = function() {
-            return $http({ method: 'GET', url: '/user/current' });
-        };
-        
-        return service;
-    });
-
-    app.controller('LibraryCtrl', function($scope, User) {
-        $scope.user = {};
-        $scope.pony = { name: 'fluttershy' };
-        User.getCurrent().success(function(user) {
-            $scope.user = user;
-        }).error(function(data) {
-            console.error(data);
+@section scripts
+{
+    <script>
+        $('.btn-file :file').on('change', function() {
+            console.log('changed');
         });
-    });
-</script>
+    </script>
+}

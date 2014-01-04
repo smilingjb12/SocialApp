@@ -1,6 +1,6 @@
 ﻿body {
     color: #444;
-    overflow-y: scroll;
+    overflow-y: scroll !important;
 }
 
 .jumbotron.welcome {
@@ -39,4 +39,12 @@ img.profile {
     -webkit-box-shadow: -1px 0px 11px rgba(50, 50, 50, 0.15);
     -moz-box-shadow: -1px 0px 11px rgba(50, 50, 50, 0.15);
     box-shadow: -1px 0px 11px rgba(50, 50, 50, 0.15);
+}
+
+.modal-backdrop {
+    background-color: #5c5c5c;
+}
+
+.modal-dialog {
+    padding-top: 60px;
 }
