@@ -6,25 +6,36 @@
     .row {
         padding-top: 20px;
     }
+
     #browse-btn {
         margin-right: 10px;
     }
 </style>
 <link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
 
-<div class="row" ng-app="library-app" ng-controller="LibraryCtrl">
+<div class="row">
     <div class="col-xs-9">
-        <div ng-repeat="song in user.librarySongs">
-            {{song.artist}} &ndash; {{song.title}}
-        </div>
-        <div ng-show="user.librarySongs.length == 0">
-            You don't have any songs in your library yet
-        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <tbody>
+                @foreach (int i in Enumerable.Range(0, 10))
+                {
+                    <tr>
+                        <td>One</td>
+                        <td>Two</td>
+                        <td>Three</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
     <div class="col-xs-3">
-        <a href="#" class="btn btn-success" id="upload-btn" data-toggle="modal" data-target="#upload-modal">
-            <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Upload
-        </a>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="#" class="btn btn-success btn-block" id="upload-btn" data-toggle="modal" data-target="#upload-modal">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Upload
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -60,10 +71,10 @@
         function SongUploader(file) {
             this.file = file;
         }
-        
+
         SongUploader.prototype = {
             UPLOAD_URL: '/song/upload',
-            
+
             upload: function(callback) {
                 var self = this;
                 var xhr = new XMLHttpRequest();
