@@ -132,7 +132,7 @@ namespace SocialApp.Controllers
                     Country = "Country",
                     City = "City",
                     About = "About",
-                    PictureFilePath = @"/Content/images/default-profile-picture-b&w.png"
+                    PictureFilePath = "/Content/images/default-profile-picture-b&w.png"
                 });
             }
             catch (MembershipCreateUserException e)

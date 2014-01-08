@@ -12,15 +12,16 @@ namespace DataAccess
     public class SocialAppContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Song> Songs { get; set; }
 
-        static SocialAppContext()
+        public static void Initialize()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SocialAppContext>());
+            Database.SetInitializer(new DatabaseInitializer());
             using (var c = new SocialAppContext())
             {
                 c.Database.Initialize(force: true);
                 c.Database.CreateIfNotExists();
-            }
+            } 
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

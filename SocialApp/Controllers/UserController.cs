@@ -37,7 +37,7 @@ namespace SocialApp.Controllers
             if (model.Picture != null)
             {
                 string extension = System.IO.Path.GetExtension(model.Picture.FileName);
-                string relativePicturePath = string.Format("{0}/{1}{2}", Strings.ProfilePicturesFolder, Guid.NewGuid(), extension);
+                string relativePicturePath = string.Format("/{0}/{1}{2}", Strings.ProfilePicturesFolder, Guid.NewGuid(), extension);
                 string serverPicturePath = Server.MapPath(string.Format("~/{0}", relativePicturePath));
                 model.Picture.SaveAs(serverPicturePath);
                 currentUser.PictureFilePath = relativePicturePath;

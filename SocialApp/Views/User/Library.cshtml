@@ -6,6 +6,9 @@
     .row {
         padding-top: 20px;
     }
+    #browse-btn {
+        margin-right: 10px;
+    }
 </style>
 <link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
 
@@ -22,7 +25,6 @@
         <a href="#" class="btn btn-success" id="upload-btn" data-toggle="modal" data-target="#upload-modal">
             <span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Upload
         </a>
-        Maybe filter
     </div>
 </div>
 
@@ -31,13 +33,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Song upload</h4>
+                <h4 class="modal-title text-center">Song upload</h4>
             </div>
             <div class="modal-body">
-                <span id="browse-btn" class="btn btn-primary btn-file">
-                    Browse
-                    <input type="file"/>
+                <span id="browse-btn" class="btn btn-primary btn-file">Browse
+                        <input type="file" />
                 </span>
+                <span class="file-name">Choose a track to upload</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -46,11 +48,57 @@
     </div>
 </div>
 
+<script type="text/template" id="upload-song-template">
+    <div class="progress progress-striped active">
+        <div id="upload-progress" class="progress-bar" role="progressbar" style="width: 0%">
+    </div>
+</script>
+
 @section scripts
 {
     <script>
-        $('.btn-file :file').on('change', function() {
-            console.log('changed');
+        function SongUploader(file) {
+            this.file = file;
+        }
+        
+        SongUploader.prototype = {
+            UPLOAD_URL: '/song/upload',
+            
+            upload: function(callback) {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(e) {
+                    var percent = 100 * e.loaded / e.total;
+                    $('#upload-progress').css('width', percent + '%');
+                });
+                xhr.onreadystatechange = function(e) {
+                    if (e.target.readyState != 4) return;
+                    if (e.target.status != 200) {
+                        console.error(e);
+                        return;
+                    }
+                    self.uploadedSong = e.target.response;
+                    callback();
+                };
+                xhr.responseType = 'json';
+                xhr.open('POST', this.UPLOAD_URL);
+                xhr.send(this.file);
+            }
+        };
+
+        $('#start-upload-btn').attr('disabled', true);
+        $('.btn-file :file').on('change', function(e) {
+            var file = this.files[0];
+            $('#upload-modal .modal-body').fadeOut(function() {
+                var modalBody = $(this);
+                var progressBarHtml = $('#upload-song-template').html();
+                modalBody.html(progressBarHtml).fadeIn();
+                var songUploader = new SongUploader(file);
+                songUploader.upload(function done() {
+                    modalBody.html(songUploader.uploadedSong.title);
+                });
+            });
         });
+
     </script>
 }

@@ -3,3 +3,6 @@ c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\bin\Debu
 c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.dll
 c:\users\k.pashkov\documents\visual studio 2012\Projects\SocialApp\Data\obj\Debug\Data.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.config

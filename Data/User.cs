@@ -18,7 +18,7 @@ namespace Data
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Email Is Required")]
+        [Required(ErrorMessage = "Email Is required")]
         [RegularExpression(@".+\@.+\..+", ErrorMessage = "Please input valid email address")]
         public string Email { get; set; }
 
@@ -35,6 +35,6 @@ namespace Data
         public string PictureFilePath { get; set; }
 
         public virtual IList<Song> UploadedSongs { get; set; }
-        public virtual IList<Song> LibrarySongs { get; set; } 
+        //public virtual IList<Song> LibrarySongs { get; set; } 
     }
 }

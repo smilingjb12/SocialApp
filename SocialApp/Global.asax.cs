@@ -22,6 +22,8 @@ namespace SocialApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            SocialAppContext.Initialize();
             AuthConfig.RegisterAuth();
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
