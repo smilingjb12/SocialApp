@@ -48,3 +48,7 @@ img.profile {
 .modal-dialog {
     padding-top: 60px;
 }
+
+.modal-footer .btn {
+    min-width: 90px;
+}

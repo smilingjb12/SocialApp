@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,20 @@ namespace SocialApp.Controllers
         public SongController(SocialAppContext db)
         {
             this.db = db;
+        }
+        
+        [HttpPost]
+        public JsonResult Update(Song song)
+        {
+            Song existingSong = db.Songs.Find(song.Id);
+            if (existingSong == null) return null;
+
+            existingSong.Title = song.Title;
+            existingSong.Artist = song.Artist;
+            existingSong.Album = song.Album;
+
+            db.SaveChanges();
+            return Json(string.Empty);
         }
 
         [HttpPost]
@@ -55,7 +70,7 @@ namespace SocialApp.Controllers
                 song.Bitrate = tagFile.Properties.AudioBitrate;
                 song.Duration = tagFile.Properties.Duration;
                 song.Title = tagFile.Tag.Title;
-                song.Artist = tagFile.Tag.FirstAlbumArtist;
+                song.Artist = tagFile.Tag.FirstAlbumArtist ?? tagFile.Tag.FirstArtist;
                 song.Album = tagFile.Tag.Album;
                 if (tagFile.Tag.Pictures.FirstOrDefault() != null) // has album cover
                 {

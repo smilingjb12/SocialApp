@@ -3,17 +3,24 @@
 }
 
 <style>
-    .row {
+    .first-row {
         padding-top: 20px;
     }
-
     #browse-btn {
         margin-right: 10px;
+    }
+
+    #song-edit-modal form {
+        width: 350px;
+        margin: 0 auto;
+    }
+    .album-cover {
+        max-width: 170px;
     }
 </style>
 <link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
 
-<div class="row">
+<div class="row first-row">
     <div class="col-xs-9">
         <table class="table table-striped table-bordered table-hover">
             <tbody>
@@ -47,8 +54,10 @@
                 <h4 class="modal-title text-center">Song upload</h4>
             </div>
             <div class="modal-body">
-                <span id="browse-btn" class="btn btn-primary btn-file">Browse
-                        <input type="file" />
+                <span id="browse-btn" class="btn btn-primary btn-file">
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;
+                    Browse
+                    <input type="file" data-bind="event: {change: fileSelected}" />
                 </span>
                 <span class="file-name">Choose a track to upload</span>
             </div>
@@ -65,51 +74,94 @@
     </div>
 </script>
 
+<div class="modal fade" id="song-edit-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-center">Song edit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Edit song info if you like. Press "save" to finish
+                </div>
+                <img data-bind="attr: {src: song.albumCoverPicturePath}" alt="Album cover" class="center-block album-cover img-thumbnail" />
+                <form role="form">
+                    <div class="form-group">
+                        <label for="song-title">Title</label>
+                        <input id="song-title" type="text" class="form-control" data-bind="value: song.title" placeholder="Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="song-artist">Artist</label>
+                        <input id="song-artist" type="text" class="form-control" data-bind="value: song.artist" placeholder="Artist" />
+                    </div>
+                    <div class="form-group">
+                        <label for="song-album">Album</label>
+                        <input id="song-album" type="text" class="form-control" data-bind="value: song.album" placeholder="Album" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" data-bind="click: updateSong">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts
 {
+    @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/mine/song-uploader.js"></script>
     <script>
-        function SongUploader(file) {
-            this.file = file;
+        function SongModel(json) {
+            var self = this;
+            
+            self.id = ko.observable(json.id);
+            self.title = ko.observable(json.title);
+            self.artist = ko.observable(json.artist);
+            self.album = ko.observable(json.album);
+            self.likes = ko.observable(json.likes);
+            self.albumCoverPicturePath = ko.observable(json.albumCoverPicturePath);
         }
 
-        SongUploader.prototype = {
-            UPLOAD_URL: '/song/upload',
+        function AppModel() {
+            var self = this;
 
-            upload: function(callback) {
-                var self = this;
-                var xhr = new XMLHttpRequest();
-                xhr.upload.addEventListener('progress', function(e) {
-                    var percent = 100 * e.loaded / e.total;
-                    $('#upload-progress').css('width', percent + '%');
+            self.song = new SongModel({});
+            window.song = self.song; // TODO: REMOVE
+
+            self.fileSelected = function() {
+                var file = document.querySelector('#upload-modal [type=file]').files[0];
+                $('#upload-modal .modal-body').fadeOut(function() {
+                    var modalBody = $(this);
+                    var progressBarHtml = $('#upload-song-template').html();
+                    modalBody.html(progressBarHtml).fadeIn();
+                    var songUploader = new SongUploader(file);
+                    songUploader.upload(function done() {
+                        // TODO: map this
+                        self.song.id(this.uploadedSong.id);
+                        self.song.title(this.uploadedSong.title);
+                        self.song.artist(this.uploadedSong.artist);
+                        self.song.album(this.uploadedSong.album);
+                        self.song.likes(this.uploadedSong.likes);
+                        self.song.albumCoverPicturePath(this.uploadedSong.albumCoverPicturePath);
+                            
+                        setTimeout(function() { // emulating processing
+                            $('#upload-modal').modal('hide');
+                            $('#song-edit-modal').modal('show');
+                        }, 500);
+                    });
                 });
-                xhr.onreadystatechange = function(e) {
-                    if (e.target.readyState != 4) return;
-                    if (e.target.status != 200) {
-                        console.error(e);
-                        return;
-                    }
-                    self.uploadedSong = e.target.response;
-                    callback();
-                };
-                xhr.responseType = 'json';
-                xhr.open('POST', this.UPLOAD_URL);
-                xhr.send(this.file);
-            }
-        };
+            };
 
-        $('#start-upload-btn').attr('disabled', true);
-        $('.btn-file :file').on('change', function(e) {
-            var file = this.files[0];
-            $('#upload-modal .modal-body').fadeOut(function() {
-                var modalBody = $(this);
-                var progressBarHtml = $('#upload-song-template').html();
-                modalBody.html(progressBarHtml).fadeIn();
-                var songUploader = new SongUploader(file);
-                songUploader.upload(function done() {
-                    modalBody.html(songUploader.uploadedSong.title);
+            self.updateSong = function() {
+                $.post('/song/update', ko.toJS(self.song), function(resp) {
+                    // TODO: do something
+                    console.log(resp);
                 });
-            });
-        });
+            };
+        }
 
+        ko.applyBindings(new AppModel());
     </script>
 }
