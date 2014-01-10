@@ -14,6 +14,12 @@ namespace DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Song> Songs { get; set; }
 
+        public SocialAppContext()
+        {
+            this.Configuration.ProxyCreationEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false; 
+        }
+
         public static void Initialize()
         {
             Database.SetInitializer(new DatabaseInitializer());

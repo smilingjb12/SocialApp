@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using DataAccess;
+using Newtonsoft.Json;
 using SocialApp.Models;
 
 namespace SocialApp
@@ -25,8 +26,8 @@ namespace SocialApp
 
             SocialAppContext.Initialize();
             AuthConfig.RegisterAuth();
-
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
         }
     }
 }

@@ -69,9 +69,10 @@ namespace SocialApp.Controllers
             {
                 song.Bitrate = tagFile.Properties.AudioBitrate;
                 song.Duration = tagFile.Properties.Duration;
-                song.Title = tagFile.Tag.Title;
+                song.Title = tagFile.Tag.Title ?? "Song Title";
                 song.Artist = tagFile.Tag.FirstAlbumArtist ?? tagFile.Tag.FirstArtist;
-                song.Album = tagFile.Tag.Album;
+                song.Artist = song.Artist ?? "Song Artist";
+                song.Album = tagFile.Tag.Album ?? "Song Album Title";
                 if (tagFile.Tag.Pictures.FirstOrDefault() != null) // has album cover
                 {
                     IPicture pic = tagFile.Tag.Pictures.First();

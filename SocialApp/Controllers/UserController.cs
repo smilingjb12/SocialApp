@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using DataAccess;
+using Newtonsoft.Json;
 using SocialApp.Models;
 using WebMatrix.WebData;
 
@@ -63,6 +64,13 @@ namespace SocialApp.Controllers
                 PictureFilePath = currentUser.PictureFilePath
             };
             return View(model);
+        }
+
+        public JsonCamelCaseResult UploadedSongs()
+        {
+            int id = WebSecurity.GetUserId(User.Identity.Name);
+            IEnumerable<Song> songs = db.Songs.Where(song => song.UploaderId == id).ToList();
+            return new JsonCamelCaseResult(songs, JsonRequestBehavior.AllowGet);
         }
 
         public JsonCamelCaseResult Current()
