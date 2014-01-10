@@ -57,6 +57,14 @@ function AppModel() {
             console.log('response: ', resp);
         });
     };
+    
+    self.deleteSong = function() {
+        console.log('removing song', self.song());
+        $.post('/song/delete', {id: self.song().id}).done(function(resp) {
+            console.log('response: ', resp);
+            self.songs.remove(self.song());
+        });
+    };
 
     self.fetchSongs = function() {
         $.get('/user/uploadedsongs').done(function(songs) {
@@ -66,9 +74,12 @@ function AppModel() {
         });
     };
     
-    self.enableTooltips = function() {
+    self.initializeUi = function() {
         $(".song-list").tooltip({
             selector: '[data-toggle="tooltip"]'
+        });
+        $('#song-edit-modal').on('hide.bs.modal', function() {
+            self.updateSong();
         });
     };
     
@@ -77,8 +88,14 @@ function AppModel() {
         self.song(song);
         $('#song-edit-modal').modal('show');
     };
+    
+    self.confirmDelete = function(song) {
+        console.log('confirm delete');
+        self.song(song);
+        $('#song-delete-confirmation').modal('show');
+    };
 
-    self.enableTooltips();
+    self.initializeUi();
     self.fetchSongs();
     self.resetUploadState();
 }

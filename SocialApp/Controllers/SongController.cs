@@ -40,6 +40,15 @@ namespace SocialApp.Controllers
         }
 
         [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            Song song = db.Songs.Find(id);
+            db.Songs.Remove(song);
+            db.SaveChanges();
+            return Json(string.Empty);
+        }
+
+        [HttpPost]
         public JsonCamelCaseResult Upload()
         {
             byte[] songBytes = FileUtils.ReadBytesFromStream(Request.InputStream);
