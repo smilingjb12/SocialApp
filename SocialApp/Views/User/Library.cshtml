@@ -30,14 +30,42 @@
     }
 
     .actions {
-        opacity: 0.0;
-        float: right;
-        transition: opacity 0.05s ease-in-out;
+        display: none;
+        transition: opacity 0.07s ease-in-out;
     }
 
     .song:hover .actions {
         display: inline-block;
         opacity: 1.0;
+    }
+
+    .song:hover .duration {
+        display: none;
+    }
+
+    .duration {
+        color: #777;
+    }
+
+    .file-size:before {
+        content: "(";
+    }
+
+    .file-size:after {
+        content: ")";
+    }
+
+    .play-btn {
+        line-height: 37px;
+        padding-left: 25px;
+    }
+
+    .col-duration {
+        line-height: 39px;
+    }
+
+    .song {
+        padding: 5px;
     }
 </style>
 <link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
@@ -48,21 +76,37 @@
     <div class="col-xs-7 col-xs-offset-2">
         <ul class="list-group song-list" data-bind="foreach: songs">
             <li class="list-group-item song">
-                <a href="#" class="btn btn-default btn-xs">
-                    <span class="glyphicon glyphicon-play"></span>
-                </a>&nbsp;
-                <span class="artist" data-bind="text: artistDisplay"></span>&nbsp;&ndash;&nbsp;
-                <span data-bind="text: titleDisplay"></span>
-                <section class="actions">
-                    <a href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Edit song"
-                        data-bind="click: $root.editSong">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Remove song"
-                        data-bind="click: $root.confirmDelete">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                </section>
+                <div class="row">
+                    <div class="col-xs-1 play-btn">
+                        <a href="#" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-9">
+                        <section class="main-info">
+                            <span class="artist" data-bind="text: artistDisplay"></span>&nbsp;&ndash;&nbsp;
+                            <span data-bind="text: titleDisplay"></span>
+                        </section>
+                        <section class="extra-info small">
+                            <span data-bind="text: bitrateDisplay"></span>
+                            <span class="file-size" data-bind="text: fileSizeInMegaBytesDisplay"></span>
+                        </section>
+                    </div>
+                    <div class="col-xs-2 col-duration">
+                        <span data-bind="text: durationDisplay" class="small duration"></span>
+                        <section class="actions">
+                            <a href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Edit song"
+                                data-bind="click: $root.editSong">
+                                <span class="glyphicon glyphicon-cog"></span>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Remove song"
+                                data-bind="click: $root.confirmDelete">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </section>
+                    </div>
+
+                </div>
             </li>
         </ul>
     </div>
@@ -117,8 +161,7 @@
             </div>
             <div class="modal-body">
                 <div>You are about to delete the following song:</div>
-                <h4>
-                    "<span data-bind="text: song().titleDisplay"></span>" by
+                <h4>"<span data-bind="text: song().titleDisplay"></span>" by
                     <span data-bind="text: song().artistDisplay"></span>
                 </h4>
                 <div>Are you sure?</div>

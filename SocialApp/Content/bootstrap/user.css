@@ -57,3 +57,7 @@ body {
     white-space: pre-wrap;
     min-width: 95px;
 }
+
+.small {
+    color: #666;
+}
