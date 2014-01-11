@@ -48,6 +48,15 @@ namespace SocialApp.Controllers
             return Json(string.Empty);
         }
 
+        public FileResult Download(int id)
+        {
+            Song song = db.Songs.Find(id);
+            if (song == null) return null;
+            string path = Server.MapPath("~" + song.FilePath);
+            var fileStream = new FileStream(path, FileMode.Open);
+            return File(fileStream, "audio/mp3");
+        }
+
         [HttpPost]
         public JsonCamelCaseResult Upload()
         {
@@ -65,7 +74,7 @@ namespace SocialApp.Controllers
             {
                 UploaderId = WebSecurity.GetUserId(User.Identity.Name),
                 FilePath = path,
-                FileSizeInMegaBytes = Math.Round(Request.ContentLength / 1024d / 1024d, 2)
+                FileSizeInMegaBytes = Math.Round(Request.ContentLength / 1024d / 1024d, 2),
             };
 
             string albumCoverDirectory = Server.MapPath("~" + AlbumCoverDirectory);

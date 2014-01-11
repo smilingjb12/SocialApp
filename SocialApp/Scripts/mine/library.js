@@ -10,6 +10,7 @@
     self.duration = ko.observable(json.duration);
     self.fileSizeInMegaBytes = ko.observable(json.fileSizeInMegaBytes);
     self.bitrate = ko.observable(json.bitrate);
+    self.filePath = ko.observable(json.filePath);
 
     self.artistDisplay = ko.computed(function() {
         return self.artist() == null || self.artist() == '' ? 'Unknown' : self.artist();
@@ -42,6 +43,10 @@
     self.fileSizeInMegaBytesDisplay = ko.computed(function() {
         return self.fileSizeInMegaBytes() + ' MB';
     });
+    
+    self.downloadUrl = ko.computed(function() {
+        return '/song/download/' + self.id();
+    });
 }
 
 function AppModel() {
@@ -49,8 +54,10 @@ function AppModel() {
 
     self.song = ko.observable(new SongModel({}));
     self.songs = ko.observableArray([]);
+    self.songsAreEmpty = ko.observable(true);
+    console.log(self.songs.length);
 
-    window.songs = self.songs(); // TODO: REMOVE
+    window.songs = self.songs; // TODO: REMOVE
     window.song = self.song; // TODO: REMOVE
 
     self.resetUploadState = function() {
@@ -87,8 +94,7 @@ function AppModel() {
     
     self.deleteSong = function() {
         console.log('removing song', self.song());
-        $.post('/song/delete', {id: self.song().id}).done(function(resp) {
-            console.log('response: ', resp);
+        $.post('/song/delete', { id: self.song().id }).done(function(resp) {
             self.songs.remove(self.song());
         });
     };
@@ -97,8 +103,11 @@ function AppModel() {
         $.get('/user/uploadedsongs').done(function(songs) {
             console.log('fetched songs');
             ko.utils.arrayForEach(songs, function(song) {
+                console.log('pushed');
                 self.songs.push(new SongModel(song));
+                console.log('self.songs.length = ', self.songs.length);
             });
+            console.log('self.songs.length = ', self.songs.length);
         });
     };
     
@@ -122,6 +131,10 @@ function AppModel() {
         self.song(song);
         $('#song-delete-confirmation').modal('show');
     };
+    
+    self.noSongsPresent = ko.computed(function() {
+        return self.songs().length == 0;
+    });
 
     self.initializeUi();
     self.fetchSongs();
