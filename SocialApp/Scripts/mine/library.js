@@ -20,6 +20,10 @@
         return self.title() == null || self.artist() == '' ? 'Unknown' : self.title();
     });
     
+    self.fullTitle = ko.computed(function() {
+        return self.artist() + ' ' + self.title();
+    });
+
     self.durationDisplay = ko.computed(function() {
         if (!self.duration()) return null;
         var parts = self.duration().split(':');
@@ -54,10 +58,20 @@ function AppModel() {
 
     self.song = ko.observable(new SongModel({}));
     self.songs = ko.observableArray([]);
-    self.songsAreEmpty = ko.observable(true);
+    self.filter = ko.observable('');
 
     window.songs = self.songs; // TODO: REMOVE
     window.song = self.song; // TODO: REMOVE
+
+    window.filteredSongs = self.filteredSongs = ko.computed(function() {
+        var filter = self.filter().trim().toLowerCase();
+        console.log('filter: ', filter);
+        if (!filter) return self.songs();
+        return ko.utils.arrayFilter(self.songs(), function(song) {
+            var search = new RegExp(filter, 'i');
+            return song.fullTitle().match(search);
+        });
+    });
 
     self.resetUploadState = function() {
         $('#upload-modal').html($('#browse-song-template').html());

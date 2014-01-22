@@ -89,14 +89,19 @@
             </div>
         </div>
         <div class="input-group search" data-bind="ifnot: noSongsPresent">
-            <input type="text" class="form-control" placeholder="Search"/>
+            <input type="text" class="form-control" placeholder="Search" data-bind="value: filter, valueUpdate: 'afterkeydown'"/>
             <div class="input-group-btn">
                 <a href="#" class="btn btn-default">
                     <i class="glyphicon glyphicon-search"></i>
                 </a>
             </div>
         </div>
-        <ul class="list-group song-list" data-bind="foreach: songs">
+        <div class="panel panel-default" data-bind="visible: filteredSongs().length == 0">
+            <div class="panel-body text-center">
+                No matching songs found
+            </div>
+        </div>
+        <ul class="list-group song-list" data-bind="foreach: filteredSongs">
             <li class="list-group-item song">
                 <div class="row">
                     <div class="col-xs-1 play-btn">

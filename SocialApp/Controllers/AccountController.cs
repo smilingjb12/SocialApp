@@ -66,7 +66,7 @@ namespace SocialApp.Controllers
                 {
                     return RedirectToLocal(returnUrl);
                 }
-                return RedirectToAction("Show", "User", new { id = CurrentUserId });
+                return RedirectToAction("Show", "User", new { id = user.Id });
             }
 
             ModelState.AddModelError("", "Invalid email or password");
