@@ -15,28 +15,19 @@ using SocialApp.Models;
 namespace SocialApp.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly SocialAppContext db;
-        private readonly EmailSender mailSender;
-
-        public AccountController(SocialAppContext db, EmailSender mailSender)
-        {
-            this.db = db;
-            this.mailSender = mailSender;
-        }
-
         [AllowAnonymous]
         public ActionResult Activate(string code)
         {
-            User user = db.Users.FirstOrDefault(u => u.ActivationCode == code);
+            User user = Db.Users.FirstOrDefault(u => u.ActivationCode == code);
             if (user == null)
             {
                 TempData["danger"] = "No user wtih given activation code was found";
                 return RedirectToAction("Index", "Home");
             }
             user.IsActivated = true;
-            db.SaveChanges();
+            Db.SaveChanges();
             TempData["success"] = "Your accound has been activated. You can sign in now";
             return RedirectToAction("Index", "Home");
         }
@@ -58,7 +49,7 @@ namespace SocialApp.Controllers
             {
                 return View(model);
             }
-            User user = db.Users.FirstOrDefault(u => u.Email == model.Email);
+            User user = Db.Users.FirstOrDefault(u => u.Email == model.Email);
             if (user == null)
             {
                 TempData["danger"] = "Invalid email or password";
@@ -75,7 +66,7 @@ namespace SocialApp.Controllers
                 {
                     return RedirectToLocal(returnUrl);
                 }
-                return RedirectToAction("Show", "User", new { id = WebSecurity.GetUserId(model.Email) });
+                return RedirectToAction("Show", "User", new { id = CurrentUserId });
             }
 
             ModelState.AddModelError("", "Invalid email or password");
@@ -104,7 +95,7 @@ namespace SocialApp.Controllers
             {
                 return View(user);
             }
-            User existingUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
+            User existingUser = Db.Users.FirstOrDefault(u => u.Email == user.Email);
             if (existingUser != null)
             {
                 ModelState.AddModelError("", "Email is already taken. Choose another");
@@ -113,7 +104,7 @@ namespace SocialApp.Controllers
             string activationCode = Guid.NewGuid().ToString();
             try
             {
-                mailSender.SendActivationCode(user.Email, activationCode);
+                EmailSender.SendActivationCode(user.Email, activationCode);
             }
             catch (FormatException)
             {

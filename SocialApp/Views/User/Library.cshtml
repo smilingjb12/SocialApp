@@ -68,6 +68,14 @@
     .song {
         padding: 5px;
     }
+
+    .search {
+        margin-bottom: 5px;
+    }
+
+    .search .input-group-btn {
+        padding-left: 2px;
+    }
 </style>
 <link href="~/Content/bootstrap/file-input-wrapper.css" rel="stylesheet" />
 
@@ -78,6 +86,14 @@
         <div class="panel panel-default" data-bind="visible: noSongsPresent">
             <div class="panel-body text-center">
                 No songs in your library yet
+            </div>
+        </div>
+        <div class="input-group search" data-bind="ifnot: noSongsPresent">
+            <input type="text" class="form-control" placeholder="Search"/>
+            <div class="input-group-btn">
+                <a href="#" class="btn btn-default">
+                    <i class="glyphicon glyphicon-search"></i>
+                </a>
             </div>
         </div>
         <ul class="list-group song-list" data-bind="foreach: songs">
@@ -111,7 +127,7 @@
                             </a>
                             <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Remove"
                                data-bind="click: $root.confirmDelete">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </section>
                     </div>

@@ -55,7 +55,6 @@ function AppModel() {
     self.song = ko.observable(new SongModel({}));
     self.songs = ko.observableArray([]);
     self.songsAreEmpty = ko.observable(true);
-    console.log(self.songs.length);
 
     window.songs = self.songs; // TODO: REMOVE
     window.song = self.song; // TODO: REMOVE
@@ -85,15 +84,12 @@ function AppModel() {
     };
 
     self.updateSong = function() {
-        $.post('/song/update', ko.toJS(self.song)).done(function(resp) {
-            // TODO: do something
-            console.log('updated song ', self.song());
-            console.log('response: ', resp);
+        $.post('/song/update', ko.toJS(self.song)).fail(function(resp) {
+            console.error(resp);
         });
     };
     
     self.deleteSong = function() {
-        console.log('removing song', self.song());
         $.post('/song/delete', { id: self.song().id }).done(function(resp) {
             self.songs.remove(self.song());
         });
@@ -101,13 +97,9 @@ function AppModel() {
 
     self.fetchSongs = function() {
         $.get('/user/uploadedsongs').done(function(songs) {
-            console.log('fetched songs');
             ko.utils.arrayForEach(songs, function(song) {
-                console.log('pushed');
                 self.songs.push(new SongModel(song));
-                console.log('self.songs.length = ', self.songs.length);
             });
-            console.log('self.songs.length = ', self.songs.length);
         });
     };
     
@@ -121,13 +113,11 @@ function AppModel() {
     };
     
     self.editSong = function(song) {
-        console.log('editing song: ', song);
         self.song(song);
         $('#song-edit-modal').modal('show');
     };
     
     self.confirmDelete = function(song) {
-        console.log('confirm delete');
         self.song(song);
         $('#song-delete-confirmation').modal('show');
     };

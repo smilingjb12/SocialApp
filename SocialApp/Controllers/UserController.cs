@@ -12,18 +12,11 @@ using WebMatrix.WebData;
 namespace SocialApp.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        private readonly SocialAppContext db;
-
-        public UserController(SocialAppContext db)
-        {
-            this.db = db;
-        }
-
         public ActionResult Show(int id)
         {
-            User user = db.Users.Find(id);
+            User user = Db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -34,27 +27,28 @@ namespace SocialApp.Controllers
         [HttpPost]
         public ActionResult Update(UserUpdateModel model)
         {
-            User currentUser = db.Users.Find(WebSecurity.GetUserId(User.Identity.Name));
+            User currentUser = Db.Users.Find(CurrentUserId);
             if (model.Picture != null)
             {
                 string extension = System.IO.Path.GetExtension(model.Picture.FileName);
-                string relativePicturePath = string.Format("/{0}/{1}{2}", Strings.ProfilePicturesFolder, Guid.NewGuid(), extension);
+                string relativePicturePath = string.Format("/{0}/{1}{2}", Strings.ProfilePicturesFolder, GenerateFileName(), extension);
                 string serverPicturePath = Server.MapPath(string.Format("~/{0}", relativePicturePath));
                 model.Picture.SaveAs(serverPicturePath);
                 currentUser.PictureFilePath = relativePicturePath;
             }
+            // TODO: use automapper here
             currentUser.About = model.About;
             currentUser.City = model.City;
             currentUser.Country = model.Country;
             currentUser.FullName = model.FullName;
-            db.SaveChanges();
+            Db.SaveChanges();
 
             return RedirectToAction("Settings");
         }
 
         public ViewResult Settings()
         {
-            User currentUser = db.Users.Find(WebSecurity.GetUserId(User.Identity.Name));
+            User currentUser = Db.Users.Find(CurrentUserId);
             var model = new UserUpdateModel
             {
                 About = currentUser.About,
@@ -68,14 +62,14 @@ namespace SocialApp.Controllers
 
         public JsonCamelCaseResult UploadedSongs()
         {
-            int id = WebSecurity.GetUserId(User.Identity.Name);
-            IEnumerable<Song> songs = db.Songs.Where(song => song.UploaderId == id).ToList();
+            int id = CurrentUserId;
+            IEnumerable<Song> songs = Db.Songs.Where(song => song.UploaderId == id).ToList();
             return new JsonCamelCaseResult(songs, JsonRequestBehavior.AllowGet);
         }
 
         public JsonCamelCaseResult Current()
         {
-            return new JsonCamelCaseResult(db.Users.Find(WebSecurity.GetUserId(User.Identity.Name)), JsonRequestBehavior.AllowGet);
+            return new JsonCamelCaseResult(Db.Users.Find(CurrentUserId), JsonRequestBehavior.AllowGet);
         }
 
         public ViewResult Library()
