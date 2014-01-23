@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using Business;
 using Data;
-using DataAccess;
+using Ninject;
 using SocialApp.Models;
 using TagLib;
-using WebMatrix.WebData;
+using System.Data.Entity;
 
 namespace SocialApp.Controllers
 {
@@ -18,15 +17,22 @@ namespace SocialApp.Controllers
         private const string SongDirectory = "/Content/Uploads/Songs/";
         private const string AlbumCoverDirectory = "/Content/Uploads/AlbumCovers/";
 
+        [Inject]
+        public ITagService TagService { get; set; }
+
         [HttpPost]
+        // TODO: ENSURE TAGS ARE UPDATED
         public JsonResult Update(Song song)
         {
-            Song existingSong = Db.Songs.Find(song.Id);
+            Song existingSong = Db.Songs
+                .Include(s => s.Tags)
+                .FirstOrDefault(s => s.Id == song.Id);
             if (existingSong == null) return null;
 
             existingSong.Title = song.Title;
             existingSong.Artist = song.Artist;
             existingSong.Album = song.Album;
+            existingSong.Tags = song.Tags;
 
             Db.SaveChanges();
             return Json(string.Empty);
@@ -95,9 +101,14 @@ namespace SocialApp.Controllers
                 }
                 else
                 {
-                    song.AlbumCoverPicturePath = "/Content/images/default-album-cover.gif";
+                    song.AlbumCoverPicturePath = WebConfigurationManager.AppSettings["DefaultAlbumCoverPicturePath"];
                 }
             }
+
+            // TODO: REMOVE THIS
+            song.Tags.Add(TagService.GetOrCreateTag("rock"));
+            song.Tags.Add(TagService.GetOrCreateTag("experimental"));
+
             Db.Songs.Add(song);
             Db.SaveChanges();
 

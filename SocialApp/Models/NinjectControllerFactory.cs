@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Business;
 using DataAccess;
 using Ninject;
 using Ninject.Web.Common;
@@ -27,6 +25,9 @@ namespace SocialApp.Models
 
             kernel.Bind<EmailSender>()
                   .To<EmailSender>();
+
+            kernel.Bind<ITagService>()
+                  .To<TagService>();
         }
 
         protected override IController GetControllerInstance(System.Web.Routing.RequestContext requestContext, Type controllerType)

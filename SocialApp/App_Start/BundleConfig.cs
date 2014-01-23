@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace SocialApp
+namespace SocialApp.App_Start
 {
     public class BundleConfig
     {
@@ -30,6 +29,13 @@ namespace SocialApp
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/tagsinput").Include(
+                "~/Scripts/bootstrap-tagsinput.js"));
+            bundles.Add(new ScriptBundle("~/Content/bootstrap/js").Include("~/Scripts/bootstrap.js"));
+
+
+
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
@@ -51,8 +57,8 @@ namespace SocialApp
                 "~/Content/bootstrap/non-responsive.css",
                 "~/Content/bootstrap/sticky-footer.css",
                 "~/Content/bootstrap/user.css"));
-            bundles.Add(new ScriptBundle("~/Content/bootstrap/js").Include("~/Scripts/bootstrap.js"));
-
+            bundles.Add(new StyleBundle("~/bootstrap-tagsinput").Include(
+                "~/Content/bootstrap/bootstrap-tagsinput.css"));
         }
     }
 }

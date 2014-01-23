@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace SocialApp
+namespace SocialApp.App_Start
 {
     public class FilterConfig
     {

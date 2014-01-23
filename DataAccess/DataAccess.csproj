@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\SongConfiguration.cs" />
+    <Compile Include="Configuration\TagConfiguration.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />
     <Compile Include="DatabaseInitializer.cs" />
     <Compile Include="SocialAppContext.cs" />
@@ -60,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
+    <ProjectReference Include="..\Data\Model.csproj">
       <Project>{2568548E-DB00-4261-B5FB-89DCA3D4FDCE}</Project>
-      <Name>Data</Name>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

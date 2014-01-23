@@ -34,7 +34,6 @@ namespace Data
         public string About { get; set; }
         public string PictureFilePath { get; set; }
 
-        public virtual IList<Song> UploadedSongs { get; set; }
-        //public virtual IList<Song> LibrarySongs { get; set; } 
+        public virtual IList<Song> UploadedSongs { get; set; } 
     }
 }

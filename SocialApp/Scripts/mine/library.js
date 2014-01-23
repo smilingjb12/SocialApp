@@ -6,6 +6,7 @@
     self.artist = ko.observable(json.artist);
     self.album = ko.observable(json.album);
     self.likes = ko.observable(json.likes);
+    self.tags = ko.observableArray(json.tags);
     self.albumCoverPicturePath = ko.observable(json.albumCoverPicturePath);
     self.duration = ko.observable(json.duration);
     self.fileSizeInMegaBytes = ko.observable(json.fileSizeInMegaBytes);
@@ -98,9 +99,13 @@ function AppModel() {
     };
 
     self.updateSong = function() {
-        $.post('/song/update', ko.toJS(self.song)).fail(function(resp) {
-            console.error(resp);
-        });
+        console.log('saving song to server:', self.song());
+        $.ajax({
+            type: 'POST',
+            url: '/song/update',
+            data: ko.toJSON(self.song()),
+            contentType: 'application/json',
+        })
     };
     
     self.deleteSong = function() {
@@ -111,6 +116,7 @@ function AppModel() {
 
     self.fetchSongs = function() {
         $.get('/user/uploadedsongs').done(function(songs) {
+            console.log('fetched songs:', songs);
             ko.utils.arrayForEach(songs, function(song) {
                 self.songs.push(new SongModel(song));
             });
@@ -122,12 +128,22 @@ function AppModel() {
             selector: '[data-toggle="tooltip"]'
         });
         $('#song-edit-modal').on('hide.bs.modal', function() {
+            var tags = $('#song-tags').val().split(',');
+            self.song().tags([]);
+            ko.utils.arrayForEach(tags, function(tag) {
+                self.song().tags.push({ id: 0, name: tag });
+            });
             self.updateSong();
         });
     };
     
     self.editSong = function(song) {
         self.song(song);
+        var tagInput = $('#song-tags');
+        tagInput.tagsinput();
+        ko.utils.arrayForEach(self.song().tags(), function(tag) {
+            tagInput.tagsinput('add', tag.name);
+        });
         $('#song-edit-modal').modal('show');
     };
     
@@ -140,8 +156,8 @@ function AppModel() {
         return self.songs().length == 0;
     });
 
-    self.initializeUi();
     self.fetchSongs();
+    self.initializeUi();
     self.resetUploadState();
 }
 

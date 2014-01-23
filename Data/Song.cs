@@ -12,6 +12,7 @@ namespace Data
         public Song()
         {
             Likes = 0;
+            Tags = new HashSet<Tag>();
         }
 
         public int Id { get; set; }
@@ -35,5 +36,7 @@ namespace Data
 
         public int UploaderId { get; set; }
         public virtual User Uploader { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }

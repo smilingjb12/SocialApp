@@ -28,8 +28,8 @@ namespace SocialApp.Controllers
             }
             user.IsActivated = true;
             Db.SaveChanges();
-            TempData["success"] = "Your accound has been activated. You can sign in now";
-            return RedirectToAction("Index", "Home");
+            LoginModel model = new LoginModel { Email = user.Email, Password = user.Password };
+            return Login(model, returnUrl: null);
         }
 
         [AllowAnonymous]

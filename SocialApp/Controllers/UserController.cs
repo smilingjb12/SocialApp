@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Data;
-using DataAccess;
-using Newtonsoft.Json;
 using SocialApp.Models;
-using WebMatrix.WebData;
+using System.Data.Entity;
 
 namespace SocialApp.Controllers
 {
@@ -62,8 +58,11 @@ namespace SocialApp.Controllers
 
         public JsonCamelCaseResult UploadedSongs()
         {
-            int id = CurrentUserId;
-            IEnumerable<Song> songs = Db.Songs.Where(song => song.UploaderId == id).ToList();
+            IEnumerable<Song> songs = Db.Songs
+                .Include(song => song.Tags)
+                .Where(song => song.UploaderId == CurrentUserId)
+                .ToList();
+
             return new JsonCamelCaseResult(songs, JsonRequestBehavior.AllowGet);
         }
 

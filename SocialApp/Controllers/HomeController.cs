@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using DataAccess;
-using WebMatrix.WebData;
+﻿using System.Web.Mvc;
 
 namespace SocialApp.Controllers
 {

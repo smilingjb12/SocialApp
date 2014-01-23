@@ -13,6 +13,7 @@ namespace DataAccess.Configuration
         public SongConfiguration()
         {
             HasRequired(s => s.Uploader).WithMany(u => u.UploadedSongs).HasForeignKey(s => s.UploaderId);
+            HasMany(s => s.Tags).WithMany();
         }
     }
 }

@@ -1,0 +1,11 @@
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\Business.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\Business.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\Data.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\DataAccess.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\EntityFramework.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\DataAccess.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\Data.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\bin\Debug\EntityFramework.xml
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\obj\Debug\Business.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Business\obj\Debug\Business.pdb
