@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Data;
+using DataAccess;
 using SocialApp.Models;
 using System.Data.Entity;
 
@@ -10,9 +12,16 @@ namespace SocialApp.Controllers
     [Authorize]
     public class UserController : BaseController
     {
+        private readonly SocialAppContext db;
+
+        public UserController(SocialAppContext db)
+        {
+            this.db = db;
+        }
+
         public ActionResult Show(int id)
         {
-            User user = Db.Users.Find(id);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -23,7 +32,7 @@ namespace SocialApp.Controllers
         [HttpPost]
         public ActionResult Update(UserUpdateModel model)
         {
-            User currentUser = Db.Users.Find(CurrentUserId);
+            User currentUser = db.Users.Find(CurrentUserId);
             if (model.Picture != null)
             {
                 string extension = System.IO.Path.GetExtension(model.Picture.FileName);
@@ -37,14 +46,14 @@ namespace SocialApp.Controllers
             currentUser.City = model.City;
             currentUser.Country = model.Country;
             currentUser.FullName = model.FullName;
-            Db.SaveChanges();
+            db.SaveChanges();
 
             return RedirectToAction("Settings");
         }
 
         public ViewResult Settings()
         {
-            User currentUser = Db.Users.Find(CurrentUserId);
+            User currentUser = db.Users.Find(CurrentUserId);
             var model = new UserUpdateModel
             {
                 About = currentUser.About,
@@ -58,17 +67,20 @@ namespace SocialApp.Controllers
 
         public JsonCamelCaseResult UploadedSongs()
         {
-            IEnumerable<Song> songs = Db.Songs
+            using (var db = new SocialAppContext())
+            {
+                IEnumerable<Song> songs = db.Songs
                 .Include(song => song.Tags)
                 .Where(song => song.UploaderId == CurrentUserId)
                 .ToList();
+                return new JsonCamelCaseResult(songs, JsonRequestBehavior.AllowGet);
+            }
 
-            return new JsonCamelCaseResult(songs, JsonRequestBehavior.AllowGet);
         }
 
         public JsonCamelCaseResult Current()
         {
-            return new JsonCamelCaseResult(Db.Users.Find(CurrentUserId), JsonRequestBehavior.AllowGet);
+            return new JsonCamelCaseResult(db.Users.Find(CurrentUserId), JsonRequestBehavior.AllowGet);
         }
 
         public ViewResult Library()

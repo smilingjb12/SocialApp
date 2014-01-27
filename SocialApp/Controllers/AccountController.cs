@@ -17,17 +17,26 @@ namespace SocialApp.Controllers
     [Authorize]
     public class AccountController : BaseController
     {
+        private readonly SocialAppContext db;
+        private readonly IEmailSender emailSender;
+
+        public AccountController(SocialAppContext db, IEmailSender emailSender)
+        {
+            this.db = db;
+            this.emailSender = emailSender;
+        }
+
         [AllowAnonymous]
         public ActionResult Activate(string code)
         {
-            User user = Db.Users.FirstOrDefault(u => u.ActivationCode == code);
+            User user = db.Users.FirstOrDefault(u => u.ActivationCode == code);
             if (user == null)
             {
                 TempData["danger"] = "No user wtih given activation code was found";
                 return RedirectToAction("Index", "Home");
             }
             user.IsActivated = true;
-            Db.SaveChanges();
+            db.SaveChanges();
             LoginModel model = new LoginModel { Email = user.Email, Password = user.Password };
             return Login(model, returnUrl: null);
         }
@@ -49,7 +58,7 @@ namespace SocialApp.Controllers
             {
                 return View(model);
             }
-            User user = Db.Users.FirstOrDefault(u => u.Email == model.Email);
+            User user = db.Users.FirstOrDefault(u => u.Email == model.Email);
             if (user == null)
             {
                 TempData["danger"] = "Invalid email or password";
@@ -95,7 +104,7 @@ namespace SocialApp.Controllers
             {
                 return View(user);
             }
-            User existingUser = Db.Users.FirstOrDefault(u => u.Email == user.Email);
+            User existingUser = db.Users.FirstOrDefault(u => u.Email == user.Email);
             if (existingUser != null)
             {
                 ModelState.AddModelError("", "Email is already taken. Choose another");
@@ -104,7 +113,7 @@ namespace SocialApp.Controllers
             string activationCode = Guid.NewGuid().ToString();
             try
             {
-                EmailSender.SendActivationCode(user.Email, activationCode);
+                emailSender.SendActivationCode(user.Email, activationCode);
             }
             catch (FormatException)
             {

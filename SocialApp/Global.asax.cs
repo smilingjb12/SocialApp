@@ -22,7 +22,6 @@ namespace SocialApp
 
             SocialAppContext.Initialize();
             AuthConfig.RegisterAuth();
-            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
         }
     }

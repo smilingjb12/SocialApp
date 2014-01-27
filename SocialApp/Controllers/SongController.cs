@@ -5,10 +5,12 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using Business;
 using Data;
+using DataAccess;
 using Ninject;
 using SocialApp.Models;
 using TagLib;
 using System.Data.Entity;
+using Tag = Data.Tag;
 
 namespace SocialApp.Controllers
 {
@@ -17,14 +19,22 @@ namespace SocialApp.Controllers
         private const string SongDirectory = "/Content/Uploads/Songs/";
         private const string AlbumCoverDirectory = "/Content/Uploads/AlbumCovers/";
 
+        private readonly SocialAppContext db;
+        private readonly ITagService tagService;
+
+        public SongController(ITagService tagService, SocialAppContext db)
+        {
+            this.tagService = tagService;
+            this.db = db;
+        }
+
         [Inject]
         public ITagService TagService { get; set; }
 
         [HttpPost]
-        // TODO: ENSURE TAGS ARE UPDATED
         public JsonResult Update(Song song)
         {
-            Song existingSong = Db.Songs
+            Song existingSong = db.Songs
                 .Include(s => s.Tags)
                 .FirstOrDefault(s => s.Id == song.Id);
             if (existingSong == null) return null;
@@ -34,22 +44,22 @@ namespace SocialApp.Controllers
             existingSong.Album = song.Album;
             existingSong.Tags = song.Tags;
 
-            Db.SaveChanges();
+            db.SaveChanges();
             return Json(string.Empty);
         }
 
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            Song song = Db.Songs.Find(id);
-            Db.Songs.Remove(song);
-            Db.SaveChanges();
+            Song song = db.Songs.Find(id);
+            db.Songs.Remove(song);
+            db.SaveChanges();
             return Json(string.Empty);
         }
 
         public FileResult Download(int id)
         {
-            Song song = Db.Songs.Find(id);
+            Song song = db.Songs.Find(id);
             if (song == null) return null;
             string path = Server.MapPath("~" + song.FilePath);
             var fileStream = new FileStream(path, FileMode.Open);
@@ -73,7 +83,7 @@ namespace SocialApp.Controllers
             {
                 UploaderId = CurrentUserId,
                 FilePath = path,
-                FileSizeInMegaBytes = Math.Round(Request.ContentLength / 1024d / 1024d, 2),
+                FileSizeInMegaBytes = Math.Round(Request.ContentLength / 1024d / 1024d, 2)
             };
 
             string albumCoverDirectory = Server.MapPath("~" + AlbumCoverDirectory);
@@ -106,11 +116,12 @@ namespace SocialApp.Controllers
             }
 
             // TODO: REMOVE THIS
+            // TODO: ENSURE TAGS ARE UNIQUE
             song.Tags.Add(TagService.GetOrCreateTag("rock"));
             song.Tags.Add(TagService.GetOrCreateTag("experimental"));
 
-            Db.Songs.Add(song);
-            Db.SaveChanges();
+            db.Songs.Add(song);
+            db.SaveChanges();
 
             return new JsonCamelCaseResult(song, JsonRequestBehavior.DenyGet);
         }

@@ -13,12 +13,6 @@ namespace SocialApp.Controllers
 {
     public class BaseController : Controller
     {
-        [Inject]
-        public SocialAppContext Db { get; set; }
-
-        [Inject]
-        public EmailSender EmailSender { get; set; }
-
         public int CurrentUserId
         {
             get

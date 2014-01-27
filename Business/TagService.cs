@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
 using DataAccess;
+using Ninject;
 
 namespace Business
 {
@@ -26,11 +29,6 @@ namespace Business
             }
             Tag newTag = new Tag() { Name = name };
             return newTag;
-        }
-
-        public IEnumerable<Tag> GetOrCreateTags(IEnumerable<string> names)
-        {
-            return names.Select(GetOrCreateTag);
         }
     }
 }
