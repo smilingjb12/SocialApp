@@ -129,10 +129,13 @@ function AppModel() {
         });
         $('#song-edit-modal').on('hide.bs.modal', function() {
             var tags = $('#song-tags').val().split(',');
+            console.log('tags:', tags);
             self.song().tags([]);
-            ko.utils.arrayForEach(tags, function(tag) {
-                self.song().tags.push({ id: 0, name: tag });
-            });
+            if (tags.length != 1 || tags[0] != '') { // has any tags
+                ko.utils.arrayForEach(tags, function(tag) {
+                    self.song().tags.push({ id: 0, name: tag });
+                });
+            }
             self.updateSong();
         });
     };

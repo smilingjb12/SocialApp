@@ -22,6 +22,7 @@ namespace SocialApp
 
             SocialAppContext.Initialize();
             AuthConfig.RegisterAuth();
+            AutoMapperConfig.RegisterMappings();
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
         }
     }

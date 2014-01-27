@@ -142,3 +142,6 @@ C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\obj\Debug
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\obj\Debug\Web.csproj.GenerateResource.Cache
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\obj\Debug\SocialApp.dll
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\obj\Debug\SocialApp.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\bin\AutoMapper.Net4.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\bin\AutoMapper.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Web\bin\AutoMapper.xml

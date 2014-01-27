@@ -5,3 +5,11 @@ C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debu
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.dll
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\taglib-sharp.dll
 C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.config
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\bin\Debug\Data.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\bin\Debug\Data.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\bin\Debug\taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\bin\Debug\policy.2.0.taglib-sharp.config
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\obj\Debug\Data.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Core\obj\Debug\Data.pdb

@@ -30,9 +30,6 @@ namespace SocialApp.Controllers
             this.db = db;
         }
 
-        [Inject]
-        public ITagService TagService { get; set; }
-
         [HttpPost]
         public JsonResult Update(Song song)
         {
@@ -101,8 +98,7 @@ namespace SocialApp.Controllers
                 song.Bitrate = tagFile.Properties.AudioBitrate;
                 song.Duration = tagFile.Properties.Duration;
                 song.Title = tagFile.Tag.Title ?? "Song Title";
-                song.Artist = tagFile.Tag.FirstAlbumArtist ?? tagFile.Tag.FirstArtist;
-                song.Artist = song.Artist ?? "Song Artist";
+                song.Artist = tagFile.Tag.FirstAlbumArtist ?? tagFile.Tag.FirstArtist ?? "Song Artist";
                 song.Album = tagFile.Tag.Album ?? "Song Album Title";
                 if (tagFile.Tag.Pictures.FirstOrDefault() != null) // has album cover
                 {
@@ -113,16 +109,11 @@ namespace SocialApp.Controllers
                     System.IO.File.WriteAllBytes(Server.MapPath("~" + picPath), pic.Data.ToArray());
                     song.AlbumCoverPicturePath = picPath;
                 }
-                else
+                else // use default album cover picture
                 {
                     song.AlbumCoverPicturePath = WebConfigurationManager.AppSettings["DefaultAlbumCoverPicturePath"];
                 }
             }
-
-            // TODO: REMOVE THIS
-            // TODO: ENSURE TAGS ARE UNIQUE
-            song.Tags.Add(TagService.GetOrCreateTag("rock"));
-            song.Tags.Add(TagService.GetOrCreateTag("experimental"));
 
             db.Songs.Add(song);
             db.SaveChanges();
