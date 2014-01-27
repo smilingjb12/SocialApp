@@ -45,18 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITagService.cs" />
+    <Compile Include="Services\ITagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TagService.cs" />
+    <Compile Include="Services\TagService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{077EBDB6-A9B6-4A0F-8561-4389AF5F4635}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Data\Model.csproj">
+    <ProjectReference Include="..\Core\Core.csproj">
       <Project>{2568548E-DB00-4261-B5FB-89DCA3D4FDCE}</Project>
-      <Name>Model</Name>
+      <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,8 @@
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\Data.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\Data.pdb
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\taglib-sharp.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\bin\Debug\policy.2.0.taglib-sharp.config
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\obj\Debug\Data.dll
+C:\Users\k.pashkov\Documents\Visual Studio 2012\Projects\SocialApp\Data\obj\Debug\Data.pdb

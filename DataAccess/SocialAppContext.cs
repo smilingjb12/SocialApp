@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
+using Data.Domain;
 using DataAccess.Configuration;
 
 namespace DataAccess

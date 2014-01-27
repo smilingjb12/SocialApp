@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "SocialApp\Web.csproj", "{018BBC71-FC65-400E-9076-1B7144206FDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{018BBC71-FC65-400E-9076-1B7144206FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Data\Model.csproj", "{2568548E-DB00-4261-B5FB-89DCA3D4FDCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{2568548E-DB00-4261-B5FB-89DCA3D4FDCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{077EBDB6-A9B6-4A0F-8561-4389AF5F4635}"
 EndProject

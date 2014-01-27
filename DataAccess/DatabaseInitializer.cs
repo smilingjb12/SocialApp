@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
+using Data.Domain;
 
 namespace DataAccess
 {
@@ -12,14 +13,7 @@ namespace DataAccess
     {
         protected override void Seed(SocialAppContext context)
         {
-            User user = new User
-            {
-                IsActivated = true,
-                Email = "mail@mail.mail",
-                Password = "1234"
-            };
-            context.Users.Add(user);
-            context.SaveChanges();
+
         }
     }
 }
